@@ -3,33 +3,31 @@ logging.getLogger("transformers").setLevel(logging.ERROR)
 
 from transformers import pipeline
 
-# ================================
-# MODEL SELECTION
-# ================================
 
-# ✅ FINAL MODEL (default – stable, faithful summaries)
+# MODEL SELECTION
+ 
+
+# FINAL MODEL (default – stable, faithful summaries)
 SUMMARIZATION_MODEL = "facebook/bart-large-cnn"
 
-# 🔬 EXPERIMENTED MODEL (commented – caused hallucinations on narrative text)
+# EXPERIMENTED MODEL (commented – caused hallucinations on narrative text)
 # SUMMARIZATION_MODEL = "t5-base"
 
 
-# ================================
 # LOAD SUMMARIZER ONCE
-# ================================
 summarizer = pipeline(
     "summarization",
     model=SUMMARIZATION_MODEL
 )
 
 
-# ================================
+
 # SUMMARIZATION FUNCTION
-# ================================
+
 def summarize_text(text):
     word_count = len(text.split())
 
-    # ---- SHORT TEXT ----
+    # SHORT TEXT 
     if word_count < 150:
         result = summarizer(
             text,
@@ -38,7 +36,7 @@ def summarize_text(text):
             do_sample=False
         )
 
-    # ---- MEDIUM TEXT ----
+    # MEDIUM TEXT 
     elif word_count < 400:
         result = summarizer(
             text,
@@ -47,7 +45,7 @@ def summarize_text(text):
             do_sample=False
         )
 
-    # ---- LONG TEXT ----
+    # LONG TEXT 
     else:
         result = summarizer(
             text,
